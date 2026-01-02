@@ -1,7 +1,7 @@
 import './globals.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import { ShopProvider } from '@/context/ShopContext';
+import { ShopProvider } from '../context/ShopContext';
 
 export const metadata = {
   title: 'Mogul Design Agency',

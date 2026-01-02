@@ -25,16 +25,17 @@ const Footer = () => {
       { name: 'Shop', href: '/shop' },
       { name: 'Case Studies', href: '/projects' },
       { name: 'Free Tools', href: '/tools' },
-      { name: 'Newsletter', href: '/newsletter' },
+      { name: 'Client Portal', href: 'https://portal.moguldesignagency.com/login' },
+      { name: 'AI Tools', href: '/newsletter' },
     ],
   };
 
   const socialLinks = [
     { icon: FaTwitter, href: '#', label: 'Twitter' },
-    { icon: FaLinkedinIn, href: '#', label: 'LinkedIn' },
-    { icon: FaInstagram, href: '#', label: 'Instagram' },
+    { icon: FaLinkedinIn, href: 'https://www.linkedin.com/company/mogul-designs-agency/', label: 'LinkedIn' },
+    { icon: FaInstagram, href: 'https://www.instagram.com/moguldesignagency', label: 'Instagram' },
     { icon: FaYoutube, href: '#', label: 'YouTube' },
-    { icon: FaGithub, href: '#', label: 'GitHub' },
+    { icon: FaGithub, href: 'https://github.com/moguljordan', label: 'GitHub' },
   ];
 
   return (
@@ -61,13 +62,13 @@ const Footer = () => {
             
             {/* Contact Info */}
             <div className="space-y-3 mb-6">
-              <a href="mailto:hello@moguldesignagency.com" className="flex items-center gap-3 text-white/50 hover:text-primary transition-colors">
+              <a href="mailto:info@moguldesignagency.com" className="flex items-center gap-3 text-white/50 hover:text-primary transition-colors">
                 <FiMail size={18} />
-                hello@moguldesignagency.com
+                support@moguldesignagency.com
               </a>
               <div className="flex items-center gap-3 text-white/50">
                 <FiMapPin size={18} />
-                Miami, Florida
+                Detroit, Michigan
               </div>
             </div>
 
