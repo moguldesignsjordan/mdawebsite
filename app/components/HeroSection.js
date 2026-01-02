@@ -166,7 +166,7 @@ const HeroSection = () => {
 
       {/* Content */}
       <motion.div
-        className="container mx-auto px-4 z-10 text-center relative"
+        className="container mx-auto px-4 z-10 text-center"
         style={{
           rotateX,
           rotateY,
@@ -190,7 +190,7 @@ const HeroSection = () => {
 
         {/* Main Headline with letter animation */}
         <motion.h1
-          className="text-5xl md:text-7xl lg:text-8xl font-bold mb-4 leading-[0.95] font-heading"
+          className="text-4xl md:text-7xl lg:text-8xl font-bold mb-4 leading-[0.95] font-heading"
           variants={itemVariants}
         >
           <span className="block overflow-hidden">
@@ -266,25 +266,25 @@ const HeroSection = () => {
             </motion.svg>
           </motion.a>
         </motion.div>
+      </motion.div>
 
-        {/* Scroll indicator */}
+      {/* Scroll indicator - MOVED OUTSIDE the content container */}
+      <motion.div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.5, duration: 0.6 }}
+      >
         <motion.div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.5, duration: 0.6 }}
+          className="w-6 h-10 rounded-full border-2 border-white/20 flex justify-center pt-2"
+          animate={{ y: [0, 5, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
         >
           <motion.div
-            className="w-6 h-10 rounded-full border-2 border-white/20 flex justify-center pt-2"
-            animate={{ y: [0, 5, 0] }}
+            className="w-1 h-2 rounded-full bg-primary"
+            animate={{ y: [0, 12, 0], opacity: [1, 0.3, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
-          >
-            <motion.div
-              className="w-1 h-2 rounded-full bg-primary"
-              animate={{ y: [0, 12, 0], opacity: [1, 0.3, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
-          </motion.div>
+          />
         </motion.div>
       </motion.div>
 
