@@ -1,9 +1,7 @@
 import './globals.css';
-import Header from './components/Header'; // Fixed spelling
-import Footer from './components/Footer'; // Fixed spelling
+import Header from './components/Header';
+import Footer from './components/Footer';
 import { ShopProvider } from '@/context/ShopContext';
-
-// ... rest of filere this path is correct
 
 export const metadata = {
   title: 'Mogul Design Agency',
@@ -13,8 +11,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="bg-dark text-light font-sans selection:bg-primary selection:text-white">
-        {/* We wrap the app in the ShopProvider for cart functionality */}
+      <body className="bg-dark text-light font-sans antialiased">
         <ShopProvider>
           <div className="flex flex-col min-h-screen">
             <Header />
