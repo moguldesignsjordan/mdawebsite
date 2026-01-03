@@ -2,19 +2,23 @@
 
 import { motion } from 'framer-motion';
 
-const logos = [
+// GROUP 1: Top Row (Left to Right)
+const row1Logos = [
   'images/logo1.png',
   'images/logo2.png',
   'images/logo3.png',
   'images/logo4.png',
+  // Add more unique logos here for the top row
+];
+
+// GROUP 2: Bottom Row (Right to Left)
+const row2Logos = [
   'images/logo5.png',
   'images/logo6.png',
   'images/logo7.png',
   'images/logo8.png',
+  // Add more unique logos here for the bottom row
 ];
-
-// Create reversed array without mutating original
-const logosReversed = [...logos].reverse();
 
 const LogoMarquee = () => {
   return (
@@ -42,7 +46,7 @@ const LogoMarquee = () => {
         </motion.h3>
       </div>
       
-      {/* First Marquee - Left to Right */}
+      {/* First Marquee - Left to Right (Uses row1Logos) */}
       <div className="relative mb-8">
         <div className="flex overflow-hidden [mask-image:linear-gradient(90deg,transparent,white_10%,white_90%,transparent)]">
           <motion.div
@@ -55,7 +59,8 @@ const LogoMarquee = () => {
               ease: "linear",
             }}
           >
-            {[...logos, ...logos].map((logo, index) => (
+            {/* Duplicating the array twice ensures smooth looping */}
+            {[...row1Logos, ...row1Logos, ...row1Logos].map((logo, index) => (
               <div key={`row1-${index}`} className="flex-shrink-0 group">
                 <img 
                   src={logo} 
@@ -68,7 +73,7 @@ const LogoMarquee = () => {
         </div>
       </div>
 
-      {/* Second Marquee - Right to Left */}
+      {/* Second Marquee - Right to Left (Uses row2Logos) */}
       <div className="relative">
         <div className="flex overflow-hidden [mask-image:linear-gradient(90deg,transparent,white_10%,white_90%,transparent)]">
           <motion.div
@@ -77,11 +82,12 @@ const LogoMarquee = () => {
             transition={{
               repeat: Infinity,
               repeatType: "loop",
-              duration: 35,
+              duration: 35, // Slightly different speed for visual interest
               ease: "linear",
             }}
           >
-            {[...logosReversed, ...logosReversed].map((logo, index) => (
+             {/* Duplicating the array twice ensures smooth looping */}
+            {[...row2Logos, ...row2Logos, ...row2Logos].map((logo, index) => (
               <div key={`row2-${index}`} className="flex-shrink-0 group">
                 <img 
                   src={logo} 
