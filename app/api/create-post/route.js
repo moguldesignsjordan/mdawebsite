@@ -1,22 +1,24 @@
 import { createClient } from 'next-sanity';
 import { NextResponse } from 'next/server';
 
-// 1. Config: Ensure these are in your .env.local
-const serverClient = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
-  apiVersion: '2024-01-01',
-  token: process.env.SANITY_API_TOKEN, // Your Write Token
-  useCdn: false,
-});
-
-// A simple secret key to protect your webhook
-const MY_SECRET_KEY = process.env.MY_WEBHOOK_SECRET || 'changeme123';
+// MOVE CONFIG INSIDE THE FUNCTION
+// This prevents the "Top Level" crash during build
 
 export async function POST(request) {
   try {
-    // 2. Security Check (Look for "Authorization" header)
+    // 1. Initialize Client INSIDE the request
+    const serverClient = createClient({
+      projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+      dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
+      apiVersion: '2024-01-01',
+      token: process.env.SANITY_API_TOKEN,
+      useCdn: false,
+    });
+    
+    // 2. Security Check
+    const MY_SECRET_KEY = process.env.MY_WEBHOOK_SECRET;
     const authHeader = request.headers.get('authorization');
+    
     if (authHeader !== `Bearer ${MY_SECRET_KEY}`) {
       return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
     }
