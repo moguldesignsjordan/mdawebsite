@@ -1,9 +1,16 @@
 import Stripe from 'stripe';
 import { NextResponse } from 'next/server';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+// Fallback to empty string prevents build-time crash
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
+  apiVersion: '2023-10-16',
+});
 
 export async function POST(req) {
+  if (!process.env.STRIPE_SECRET_KEY) {
+    return NextResponse.json({ error: 'Stripe key not configured' }, { status: 500 });
+  }
+
   try {
     const { items } = await req.json();
 
@@ -13,12 +20,12 @@ export async function POST(req) {
         price_data: {
           currency: 'usd',
           product_data: {
-            name: `${item.name} | ${item.variantLabel}`,
-            images: [process.env.NEXT_PUBLIC_URL + item.image],
+            name: `${item.name}${item.variantLabel ? ` | ${item.variantLabel}` : ''}`,
+            images: [item.image.startsWith('http') ? item.image : `${process.env.NEXT_PUBLIC_URL}${item.image}`],
           },
-          unit_amount: item.price * 100,
+          unit_amount: Math.round(item.price * 100), // Stripe expects cents
         },
-        quantity: 1,
+        quantity: item.quantity || 1,
       })),
       mode: 'payment',
       shipping_address_collection: items.some(i => i.type === 'print') 
@@ -30,6 +37,7 @@ export async function POST(req) {
 
     return NextResponse.json({ id: session.id });
   } catch (err) {
+    console.error('Stripe Error:', err);
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
