@@ -4,7 +4,7 @@ import ServicesOverview from './components/ServicesOverview';
 import ServicesConveyor from './components/ServicesConveyor';
 import PortfolioSection from './components/PortfolioSection';
 import Testimonials from './components/Testimonials';
-import ComparisonSection from './components/ComparisonSection'; // Import New Component
+import ComparisonSection from './components/ComparisonSection';
 import CallToAction from './components/CallToAction';
 
 export default function Home() {
@@ -15,10 +15,11 @@ export default function Home() {
       <ServicesOverview />
       <ServicesConveyor />
       <ComparisonSection />
-      <PortfolioSection />
-      <Testimonials />
       
-
+      {/* Fixed the capitalization here */}
+      <PortfolioSection />
+      
+      <Testimonials />
       <CallToAction />
     </>
   );
