@@ -31,7 +31,8 @@ const Footer = () => {
   };
 
   const socialLinks = [
-    { icon: FaTwitter, href: '#', label: 'Twitter' },
+    // UPDATED: Changed Twitter to Facebook
+    { icon: FaFacebookF, href: 'https://www.facebook.com/moguldesignagency', label: 'Facebook' }, 
     { icon: FaLinkedinIn, href: 'https://www.linkedin.com/company/mogul-designs-agency/', label: 'LinkedIn' },
     { icon: FaInstagram, href: 'https://www.instagram.com/moguldesignagency', label: 'Instagram' },
     { icon: FaYoutube, href: '#', label: 'YouTube' },

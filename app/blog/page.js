@@ -1,35 +1,66 @@
 import Link from 'next/link';
+import { client } from '@/sanity/lib/client'; // Correct path based on your screenshot
 
-const posts = [
-  { id: 1, title: "Why Automation is the Future of Agencies", date: "Jan 12, 2026", cat: "Automation" },
-  { id: 2, title: "The 2026 Design Trends You Need to Know", date: "Jan 08, 2026", cat: "Design" },
-  { id: 3, title: "How We Scaled Tax Moguls to 7 Figures", date: "Dec 22, 2025", cat: "Case Study" },
-  { id: 4, title: "React vs. WordPress: Which is Right for You?", date: "Dec 15, 2025", cat: "Development" },
-];
+// Fetch data directly from Sanity
+async function getPosts() {
+  const query = `*[_type == "post"] | order(publishedAt desc) {
+    title,
+    slug,
+    publishedAt,
+    "mainImage": mainImage.asset->url,
+    excerpt
+  }`;
+  
+  return client.fetch(query);
+}
 
-export default function BlogPage() {
+export default async function BlogIndexPage() {
+  const posts = await getPosts();
+
   return (
-    <div className="pt-32 pb-24 bg-dark min-h-screen text-white">
+    <div className="bg-dark min-h-screen text-white pt-24 pb-20">
       <div className="container mx-auto px-4">
-        <h1 className="text-5xl font-bold font-heading mb-16 text-center">Insights</h1>
+        <h1 className="text-4xl md:text-5xl font-bold mb-12 text-center">
+          Latest <span className="text-primary">Insights</span>
+        </h1>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
-          {posts.map((post) => (
-            <Link key={post.id} href={`#`} className="group block">
-              <div className="aspect-video bg-gray-800 rounded-2xl mb-6 overflow-hidden">
-                {/* Image Placeholder */}
-                <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 group-hover:scale-105 transition-transform duration-500"></div>
-              </div>
-              <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
-                <span className="text-primary font-bold uppercase tracking-wider">{post.cat}</span>
-                <span>{post.date}</span>
-              </div>
-              <h3 className="text-3xl font-bold font-heading group-hover:text-primary transition-colors">
-                {post.title}
-              </h3>
-            </Link>
-          ))}
-        </div>
+        {posts.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {posts.map((post) => (
+              <Link 
+                href={`/blog/${post.slug.current}`} 
+                key={post.slug.current}
+                className="group block bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-primary transition-all duration-300"
+              >
+                {/* Image */}
+                {post.mainImage && (
+                  <div className="h-48 overflow-hidden">
+                    <img 
+                      src={post.mainImage} 
+                      alt={post.title} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                )}
+                
+                {/* Content */}
+                <div className="p-6">
+                  <p className="text-primary text-xs font-bold uppercase tracking-wider mb-2">
+                    {new Date(post.publishedAt).toLocaleDateString()}
+                  </p>
+                  <h2 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
+                    {post.title}
+                  </h2>
+                  <p className="text-white/60 text-sm line-clamp-3">
+                    {post.excerpt || "Click to read more about this topic..."}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-white/50">No posts found. Go to /studio to create one!</p>
+        )}
       </div>
     </div>
   );
