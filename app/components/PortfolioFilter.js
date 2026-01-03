@@ -9,9 +9,10 @@ const categories = ["All", "Web Design", "Branding", "Automation", "App Developm
 export default function PortfolioFilter({ projects }) {
   const [activeCategory, setActiveCategory] = useState("All");
 
-  const filteredProjects = activeCategory === "All" 
-    ? projects 
-    : projects.filter(p => p.projectType === activeCategory);
+
+const filteredProjects = activeCategory === "All" 
+  ? projects 
+  : projects.filter(p => p.projectType && p.projectType.includes(activeCategory));
 
   return (
     <div>

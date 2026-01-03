@@ -22,6 +22,11 @@ export async function POST(request) {
 
     // 1. Extract Basic Fields
     const title = formData.get('title');
+    
+    // --- NEW: Grab all selected checkboxes as an array ---
+    const projectType = formData.getAll('projectType'); 
+    // ----------------------------------------------------
+
     const tagline = formData.get('tagline');
     const clientName = formData.get('client');
     const timeline = formData.get('timeline');
@@ -73,6 +78,7 @@ export async function POST(request) {
     const newProject = await client.create({
       _type: 'project',
       title,
+      projectType, // <--- NEW: Add the array to the database document
       slug: { _type: 'slug', current: slug },
       tagline,
       client: clientName,

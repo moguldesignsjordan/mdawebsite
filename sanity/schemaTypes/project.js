@@ -21,10 +21,11 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     // --- NEW FIELD ADDED HERE ---
-    defineField({
+defineField({
       name: 'projectType',
-      title: 'Project Type',
-      type: 'string',
+      title: 'Project Categories',
+      type: 'array', // <--- CHANGED FROM 'string' TO 'array'
+      of: [{ type: 'string' }],
       options: {
         list: [
           { title: 'Web Design', value: 'Web Design' },
@@ -32,10 +33,11 @@ export default defineType({
           { title: 'Automation', value: 'Automation' },
           { title: 'App Development', value: 'App Development' },
           { title: 'Project Management', value: 'Project Management' },
+          { title: 'Mobile App', value: 'Mobile App' },
         ],
-        layout: 'radio' // Options: 'dropdown' or 'radio'
+        layout: 'grid' // Displays as checkboxes in Studio
       },
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.required().min(1).error('Select at least one category.'),
     }),
     // ---------------------------
     defineField({

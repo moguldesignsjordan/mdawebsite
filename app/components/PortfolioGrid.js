@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
-// FIX: Added "projects = []" to handle cases where data is missing/loading
 export default function PortfolioGrid({ projects = [] }) {
   
   // Safety check: If projects is still somehow null, return nothing
@@ -23,8 +22,10 @@ export default function PortfolioGrid({ projects = [] }) {
           className="group relative overflow-hidden rounded-2xl"
         >
           <Link href={`/portfolio/${project.slug}`}>
-            {/* Card Image */}
-            <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-[#161616] border border-white/5">
+            {/* 1. GLOBAL BG: Changed bg-[#161616] -> bg-dark-lighter 
+                2. GLOBAL BORDER: Added group-hover:border-primary/50
+            */}
+            <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-dark-lighter border border-white/5 transition-colors duration-300 group-hover:border-primary/50">
               {project.imageUrl ? (
                 <img 
                   src={project.imageUrl} 
@@ -37,7 +38,8 @@ export default function PortfolioGrid({ projects = [] }) {
               
               {/* Hover Overlay */}
               <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <span className="bg-orange-600 text-white px-5 py-2 text-sm rounded-full font-bold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 shadow-lg">
+                {/* 3. GLOBAL ACCENT: Changed bg-orange-600 -> bg-primary */}
+                <span className="bg-primary text-white px-5 py-2 text-sm rounded-full font-bold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 shadow-lg shadow-primary/20">
                   View Project
                 </span>
               </div>
@@ -45,7 +47,8 @@ export default function PortfolioGrid({ projects = [] }) {
 
             {/* Card Text */}
             <div className="mt-4">
-              <h3 className="text-lg font-bold font-heading text-white group-hover:text-orange-500 transition-colors">
+              {/* 4. GLOBAL TEXT: Changed hover:text-orange-500 -> group-hover:text-primary */}
+              <h3 className="text-lg font-bold font-heading text-white group-hover:text-primary transition-colors">
                 {project.title}
               </h3>
               <p className="text-xs text-gray-500 uppercase tracking-wider mt-1">

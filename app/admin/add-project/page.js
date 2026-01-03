@@ -2,6 +2,14 @@
 
 import { useState } from 'react';
 
+const CATEGORIES = [
+  "Web Design",
+  "Branding",
+  "Automation",
+  "App Development",
+  "Project Management"
+];
+
 export default function AddProjectPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
@@ -12,6 +20,13 @@ export default function AddProjectPage() {
     setMessage('');
 
     const formData = new FormData(e.target);
+
+    // LOGIC CHECK: Ensure at least one category is checked
+    if (formData.getAll('projectType').length === 0) {
+      setMessage('❌ Please select at least one Project Category');
+      setIsLoading(false);
+      return;
+    }
 
     try {
       const res = await fetch('/api/create-project', {
@@ -64,22 +79,22 @@ export default function AddProjectPage() {
               />
             </div>
 
-            {/* Project Category (NEW) */}
-            <div>
-              <label className="block text-sm font-bold text-gray-400 mb-2">Project Category</label>
-              <select 
-                name="projectType" 
-                required 
-                defaultValue=""
-                className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:border-orange-500 outline-none appearance-none cursor-pointer"
-              >
-                <option value="" disabled>Select a Category...</option>
-                <option value="Web Design">Web Design</option>
-                <option value="Branding">Branding</option>
-                <option value="Automation">Automation</option>
-                <option value="App Development">App Development</option>
-                <option value="Project Management">Project Management</option>
-              </select>
+            {/* Project Categories (MULTI-SELECT CHECKBOXES) */}
+            <div className="md:col-span-2">
+              <label className="block text-sm font-bold text-gray-400 mb-3">Project Categories (Select all that apply)</label>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                {CATEGORIES.map((cat) => (
+                  <label key={cat} className="flex items-center space-x-3 bg-black/30 p-3 rounded-lg border border-white/5 cursor-pointer hover:border-orange-500/50 transition-colors">
+                    <input 
+                      type="checkbox" 
+                      name="projectType" 
+                      value={cat} 
+                      className="w-4 h-4 accent-orange-500 rounded cursor-pointer" 
+                    />
+                    <span className="text-sm font-medium">{cat}</span>
+                  </label>
+                ))}
+              </div>
             </div>
 
             {/* Client */}
@@ -115,7 +130,7 @@ export default function AddProjectPage() {
               />
             </div>
 
-             {/* Tech Stack - Made Full Width for ease */}
+             {/* Tech Stack */}
              <div className="md:col-span-2">
               <label className="block text-sm font-bold text-gray-400 mb-2">Tech Stack (comma separated)</label>
               <input 
