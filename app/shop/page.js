@@ -1,48 +1,67 @@
 'use client';
 
-import { useShop } from '../../context/ShopContext';
-import { motion } from 'framer-motion';
-
-const products = [
-  { id: 1, name: 'Design Audit', price: 499, description: 'A comprehensive review of your brand and website design.' },
-  { id: 2, name: 'Automation Strategy', price: 299, description: 'Planning session to identify automation opportunities.' },
-  { id: 3, name: 'Agency Webflow Template', price: 79, description: 'A premium, responsive Webflow template for agencies.' },
-  { id: 4, name: 'Social Media Kit', price: 149, description: '50+ Templates for Instagram, LinkedIn, and Twitter.' },
-];
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
+import { products } from '../config/products'; // Ensure path matches your structure
 
 export default function ShopPage() {
-  const { addToCart } = useShop();
+  const [filter, setFilter] = useState('all');
+
+  const filteredProducts = filter === 'all' 
+    ? products 
+    : products.filter(p => p.type === filter);
 
   return (
-    <div className="pt-32 pb-24 bg-dark min-h-screen text-white">
+    <div className="pt-32 pb-24 bg-dark min-h-screen text-light">
       <div className="container mx-auto px-4">
-        <h1 className="text-5xl font-bold font-heading mb-12 text-center">Digital Products</h1>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {products.map((product, index) => (
-            <motion.div 
-              key={product.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-[#111] p-6 rounded-3xl border border-white/10 hover:border-primary/50 transition-colors flex flex-col"
-            >
-              <div className="h-40 bg-gray-800 rounded-xl mb-6 flex items-center justify-center text-gray-500">
-                {/* Placeholder for Product Image */}
-                Product Image
-              </div>
-              <h3 className="text-2xl font-bold font-heading mb-2">{product.name}</h3>
-              <p className="text-primary text-xl font-bold mb-4">${product.price}</p>
-              <p className="text-gray-400 text-sm mb-6 flex-grow">{product.description}</p>
-              
+        <header className="text-center mb-16">
+          <h1 className="text-5xl md:text-7xl font-bold font-heading mb-6">
+            The <span className="text-gradient-gold">Mogul</span> Shop
+          </h1>
+          
+          <div className="flex justify-center gap-4">
+            {['all', 'digital', 'print'].map((type) => (
               <button
-                onClick={() => addToCart(product)}
-                className="w-full bg-white text-black hover:bg-primary font-bold py-3 px-6 rounded-full transition-colors"
+                key={type}
+                onClick={() => setFilter(type)}
+                className={`px-6 py-2 rounded-full border transition-all uppercase text-xs font-bold tracking-widest ${
+                  filter === type 
+                  ? 'bg-primary border-primary text-black' 
+                  : 'border-light/10 text-light/50 hover:border-primary/50'
+                }`}
               >
-                Add to Cart
+                {type}
               </button>
-            </motion.div>
-          ))}
+            ))}
+          </div>
+        </header>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <AnimatePresence mode="popLayout">
+            {filteredProducts.map((product, index) => (
+              <Link href={`/shop/${product.id}`} key={product.id}>
+                <motion.div 
+                  layout
+                  className="card-dark p-6 flex flex-col group h-full cursor-pointer"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                >
+                  <div className="aspect-square bg-light/5 rounded-2xl mb-6 overflow-hidden relative border border-light/5">
+                    <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                  </div>
+                  <h3 className="text-2xl font-bold font-heading mb-2 text-light">{product.name}</h3>
+                  <p className="text-primary text-xl font-bold mb-4">
+                    {product.type === 'print' ? `From $${product.basePrice}` : `$${product.price}`}
+                  </p>
+                  <p className="text-light/50 text-sm mb-6 line-clamp-2">{product.description}</p>
+                  <span className="w-full bg-light/5 text-center text-light font-bold py-3 rounded-xl border border-light/10 group-hover:bg-primary group-hover:text-black transition-all mt-auto">
+                    View Options
+                  </span>
+                </motion.div>
+              </Link>
+            ))}
+          </AnimatePresence>
         </div>
       </div>
     </div>
