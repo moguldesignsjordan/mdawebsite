@@ -1,7 +1,7 @@
 export const revalidate = 60;
 
 import { client } from '@/sanity/lib/client';
-import PortfolioFilter from '@/components/PortfolioFilter';
+import PortfolioFilter from '../components/PortfolioFilter';
 
 async function getProjects() {
   // Fetch data including the new 'projectType'
