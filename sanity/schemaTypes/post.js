@@ -32,7 +32,7 @@ export default defineType({
       title: 'Main image',
       type: 'image',
       options: {
-        hotspot: true, // Allows you to crop images in the dashboard
+        hotspot: true,
       },
     }),
     defineField({
@@ -40,13 +40,19 @@ export default defineType({
       title: 'Excerpt',
       type: 'text',
       rows: 3,
-      description: 'A short summary for the blog list page.',
+    }),
+    // 🔴 NEW FIELD FOR AUTOMATION
+    defineField({
+      name: 'contentHtml',
+      title: 'HTML Content (Automation)',
+      type: 'text',
+      description: 'Raw HTML content from automation tools',
     }),
     defineField({
       name: 'body',
       title: 'Body',
       type: 'array',
-      of: [{ type: 'block' }, { type: 'image' }], // Allows rich text and images in the article
+      of: [{ type: 'block' }, { type: 'image' }],
     }),
   ],
 })

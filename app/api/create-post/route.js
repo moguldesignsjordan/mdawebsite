@@ -1,5 +1,6 @@
 import { createClient } from 'next-sanity';
 import { NextResponse } from 'next/server';
+import { markdownToBlocks } from '@tryfabric/martian';
 
 // MOVE CONFIG INSIDE THE FUNCTION
 // This prevents the "Top Level" crash during build
@@ -36,6 +37,7 @@ export async function POST(request) {
 
     if (imageUrl) {
       console.log(`Downloading image from: ${imageUrl}`);
+      // Basic fetch
       const imageRes = await fetch(imageUrl);
       
       if (imageRes.ok) {
@@ -58,7 +60,12 @@ export async function POST(request) {
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/(^-|-$)+/g, '');
 
-    // 6. Create Post
+    // 6. Convert Markdown to Sanity Blocks
+    // 'content' is the Markdown string from Make. 
+    // This function converts it into the JSON blocks Sanity needs.
+    const portableTextContent = markdownToBlocks(content);
+
+    // 7. Create Post
     const newPost = await serverClient.create({
       _type: 'post',
       title: title,
@@ -69,13 +76,12 @@ export async function POST(request) {
         _type: 'image',
         asset: { _type: 'reference', _ref: imageAssetId }
       } : undefined,
-      body: [
-        {
-          _type: 'block',
-          children: [{ _type: 'span', text: content }],
-          style: 'normal'
-        }
-      ]
+      
+      // 🟢 UPDATED: We now populate the standard 'body' field with our converted blocks
+      body: portableTextContent,
+      
+      // (Optional) You can remove contentHtml if you no longer want the raw string
+      // contentHtml: content, 
     });
 
     return NextResponse.json({ 
