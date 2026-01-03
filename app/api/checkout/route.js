@@ -1,12 +1,13 @@
 import Stripe from 'stripe';
 import { NextResponse } from 'next/server';
 
-// Fallback to empty string prevents build-time crash
+// Initialize Stripe with your secret key
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
   apiVersion: '2023-10-16',
 });
 
 export async function POST(req) {
+  // Guard clause for missing environment variables
   if (!process.env.STRIPE_SECRET_KEY) {
     return NextResponse.json({ error: 'Stripe key not configured' }, { status: 500 });
   }
@@ -21,9 +22,11 @@ export async function POST(req) {
           currency: 'usd',
           product_data: {
             name: `${item.name}${item.variantLabel ? ` | ${item.variantLabel}` : ''}`,
+            // Ensure images use absolute URLs for Stripe to display them
             images: [item.image.startsWith('http') ? item.image : `${process.env.NEXT_PUBLIC_URL}${item.image}`],
           },
-          unit_amount: Math.round(item.price * 100), // Stripe expects cents
+          // Stripe expects integer cents ($20.00 -> 2000)
+          unit_amount: Math.round(item.price * 100), 
         },
         quantity: item.quantity || 1,
       })),
@@ -31,11 +34,13 @@ export async function POST(req) {
       shipping_address_collection: items.some(i => i.type === 'print') 
         ? { allowed_countries: ['US', 'CA'] } 
         : undefined,
+      // Stripe will redirect users here after payment is finalized
       success_url: `${process.env.NEXT_PUBLIC_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_URL}/checkout`,
     });
 
-    return NextResponse.json({ id: session.id });
+    // CRITICAL: Return the full session URL for the 2026 redirect standard
+    return NextResponse.json({ url: session.url });
   } catch (err) {
     console.error('Stripe Error:', err);
     return NextResponse.json({ error: err.message }, { status: 500 });
