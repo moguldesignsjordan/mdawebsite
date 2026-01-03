@@ -1,3 +1,5 @@
+export const revalidate = 60; 
+
 import HeroSection from './components/HeroSection';
 import LogoMarquee from './components/LogoMarquee';
 import ServicesOverview from './components/ServicesOverview';
