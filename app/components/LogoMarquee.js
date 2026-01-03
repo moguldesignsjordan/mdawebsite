@@ -3,14 +3,14 @@
 import { motion } from 'framer-motion';
 
 const logos = [
-  'https://moguldesignagency.com/wp-content/uploads/2025/10/3.png',
-  'https://moguldesignagency.com/wp-content/uploads/2025/10/MBBEAUTY-e1760286455867.png',
-  'https://moguldesignagency.com/wp-content/uploads/2025/10/JJ.png',
-  'https://moguldesignagency.com/wp-content/uploads/2025/10/KF-e1760286823118.png',
-  'https://moguldesignagency.com/wp-content/uploads/2025/10/SBB.png',
-  'https://moguldesignagency.com/wp-content/uploads/2025/10/77.png',
-  'https://moguldesignagency.com/wp-content/uploads/2025/10/lyfestyle1-scaled.png',
-  'https://moguldesignagency.com/wp-content/uploads/2025/10/wcm-scaled.png',
+  'images/logo1.png',
+  'images/logo2.png',
+  'images/logo3.png',
+  'images/logo4.png',
+  'images/logo5.png',
+  'images/logo6.png',
+  'images/logo7.png',
+  'images/logo8.png',
 ];
 
 // Create reversed array without mutating original

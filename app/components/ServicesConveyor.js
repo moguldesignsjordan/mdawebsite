@@ -11,8 +11,7 @@ const services = [
     subtitle: "Identity",
     tags: ["Logo Design", "Brand Development", "Guidelines"],
     link: "/services/design",
-    bg: "https://moguldesignagency.com/wp-content/uploads/2025/10/ChatGPT-Image-Oct-9-2025-11_44_59-PM.png",
-    color: "from-orange-500/30",
+    bg: "/brandidentity.png",
   },
   {
     id: "development",
@@ -20,8 +19,7 @@ const services = [
     subtitle: "Strategy",
     tags: ["Architecture", "APIs", "Automation"],
     link: "/services/automations",
-    bg: "https://moguldesignagency.com/wp-content/uploads/2025/08/uzIoL8SRyELk2Bn2nPrSfmZVSrYkhUnpijD4ddCn.webp",
-    color: "from-blue-500/30",
+    bg: "/dev.webp",
   },
   {
     id: "website",
@@ -29,8 +27,8 @@ const services = [
     subtitle: "Design",
     tags: ["Landing Pages", "eCommerce", "Custom UI"],
     link: "/services/web-design",
-    bg: "https://moguldesignagency.com/wp-content/uploads/2025/08/67e05442bc20675ff4d61cf8_CREDITGURU.webp",
-    color: "from-purple-500/30",
+    bg: "/web2.png",
+
   },
   {
     id: "ai",
@@ -38,8 +36,7 @@ const services = [
     subtitle: "Intelligence",
     tags: ["LLMs", "Machine Learning", "Generative AI"],
     link: "/services/automations",
-    bg: "https://moguldesignagency.com/wp-content/uploads/2025/08/kPsIilzVfHnXYslF1Z9Eniz30LWg8ymiVXBrANdk.webp",
-    color: "from-cyan-500/30",
+    bg: "ai.webp",
   },
   {
     id: "social",
@@ -47,8 +44,7 @@ const services = [
     subtitle: "Creative",
     tags: ["Social Ads", "Management", "Automation"],
     link: "/contact",
-    bg: "https://moguldesignagency.com/wp-content/uploads/2025/10/2222.png",
-    color: "from-pink-500/30",
+    bg: "/social.png",
   },
   {
     id: "marketing",
@@ -56,8 +52,8 @@ const services = [
     subtitle: "Strategy",
     tags: ["Ad Campaigns", "Video Posts", "Reels"],
     link: "/services/design",
-    bg: "https://moguldesignagency.com/wp-content/uploads/2025/10/indoor-shot-confident-cheerful-young-dark-skinned-female-freelancer-sitting-dining-table-working-remotely-using-portable-computer-modern-electronic-gadgets-job-occupation-concept-scaled.jpg",
-    color: "from-green-500/30",
+    bg: "/girl.jpg",
+   
   }
 ];
 
