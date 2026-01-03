@@ -24,16 +24,18 @@ export default async function BlogIndexPage() {
   const remainingPosts = posts.slice(1);
 
   return (
-    <div className="bg-[#0f0f0f] min-h-screen text-white pt-32 pb-20 selection:bg-orange-500/30 selection:text-orange-200">
+    // Updated Selection Color
+    <div className="bg-[#0f0f0f] min-h-screen text-white pt-32 pb-20 selection:bg-[#ff9d14]/30 selection:text-[#ffb040]">
       <div className="container mx-auto px-4 max-w-6xl">
         
         {/* --- HERO SECTION --- */}
         <div className="text-center mb-16 md:mb-24">
-          <p className="text-orange-500 font-medium tracking-widest uppercase text-sm mb-4">
+          {/* Updated Label Color */}
+          <p className="text-[#ff9d14] font-medium tracking-widest uppercase text-sm mb-4">
             Our Latest Thinking
           </p>
           <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
-            Insights & <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">News</span>
+            Insights & <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff9d14] to-[#ffb040]">News</span>
           </h1>
           <p className="text-gray-400 max-w-2xl mx-auto text-lg md:text-xl leading-relaxed">
             Deep dives into design, automation, and the future of technology. 
@@ -48,7 +50,8 @@ export default async function BlogIndexPage() {
               <div className="mb-20">
                 <Link 
                   href={`/blog/${featuredPost.slug.current}`}
-                  className="group grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-white/5 border border-white/10 rounded-3xl p-6 hover:border-orange-500/50 transition-all duration-300"
+                  // Updated Hover Border Color
+                  className="group grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-white/5 border border-white/10 rounded-3xl p-6 hover:border-[#ff9d14]/50 transition-all duration-300"
                 >
                   {/* Image */}
                   <div className="relative aspect-[16/9] lg:aspect-[4/3] overflow-hidden rounded-2xl">
@@ -63,7 +66,8 @@ export default async function BlogIndexPage() {
                         No Image
                       </div>
                     )}
-                    <div className="absolute top-4 left-4 bg-orange-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-lg">
+                    {/* Updated Featured Badge Color */}
+                    <div className="absolute top-4 left-4 bg-[#ff9d14] text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-lg">
                       Featured
                     </div>
                   </div>
@@ -71,11 +75,13 @@ export default async function BlogIndexPage() {
                   {/* Content */}
                   <div className="lg:pr-8">
                     <div className="flex items-center gap-2 text-sm text-gray-400 mb-4">
-                      <span className="w-2 h-2 rounded-full bg-orange-500"></span>
+                      {/* Updated Dot Color */}
+                      <span className="w-2 h-2 rounded-full bg-[#ff9d14]"></span>
                       {new Date(featuredPost.publishedAt).toLocaleDateString(undefined, { dateStyle: 'long' })}
                     </div>
                     
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4 leading-tight group-hover:text-orange-500 transition-colors">
+                    {/* Updated Title Hover Color */}
+                    <h2 className="text-3xl md:text-4xl font-bold mb-4 leading-tight group-hover:text-[#ff9d14] transition-colors">
                       {featuredPost.title}
                     </h2>
                     
@@ -83,7 +89,8 @@ export default async function BlogIndexPage() {
                       {featuredPost.excerpt}
                     </p>
 
-                    <span className="inline-flex items-center text-orange-500 font-bold group-hover:translate-x-2 transition-transform duration-300">
+                    {/* Updated Link Color */}
+                    <span className="inline-flex items-center text-[#ff9d14] font-bold group-hover:translate-x-2 transition-transform duration-300">
                       Read Article 
                       <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                     </span>
@@ -104,7 +111,8 @@ export default async function BlogIndexPage() {
                     <Link 
                       href={`/blog/${post.slug.current}`} 
                       key={post.slug.current}
-                      className="group flex flex-col bg-[#161616] border border-white/5 rounded-2xl overflow-hidden hover:border-orange-500/30 hover:bg-[#1a1a1a] transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-orange-900/10"
+                      // Updated Hover Border & Shadow Colors
+                      className="group flex flex-col bg-[#161616] border border-white/5 rounded-2xl overflow-hidden hover:border-[#ff9d14]/30 hover:bg-[#1a1a1a] transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#ff9d14]/10"
                     >
                       {/* Image */}
                       <div className="h-56 overflow-hidden relative">
@@ -122,11 +130,13 @@ export default async function BlogIndexPage() {
                       
                       {/* Content */}
                       <div className="p-6 flex flex-col flex-grow">
-                        <div className="text-orange-500 text-xs font-bold uppercase tracking-wider mb-3">
+                        {/* Updated Date Color */}
+                        <div className="text-[#ff9d14] text-xs font-bold uppercase tracking-wider mb-3">
                           {new Date(post.publishedAt).toLocaleDateString()}
                         </div>
                         
-                        <h2 className="text-xl font-bold mb-3 leading-snug group-hover:text-orange-500 transition-colors">
+                        {/* Updated Title Hover Color */}
+                        <h2 className="text-xl font-bold mb-3 leading-snug group-hover:text-[#ff9d14] transition-colors">
                           {post.title}
                         </h2>
                         
@@ -134,7 +144,8 @@ export default async function BlogIndexPage() {
                           {post.excerpt}
                         </p>
 
-                        <div className="pt-4 border-t border-white/5 flex items-center text-sm font-medium text-white group-hover:text-orange-400 transition-colors">
+                        {/* Updated Read More Hover Color */}
+                        <div className="pt-4 border-t border-white/5 flex items-center text-sm font-medium text-white group-hover:text-[#ff9d14] transition-colors">
                           Read More
                           <svg className="w-4 h-4 ml-2 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                         </div>

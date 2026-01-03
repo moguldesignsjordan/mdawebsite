@@ -29,7 +29,8 @@ export default async function PortfolioSection() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 border-b border-white/10 pb-8">
           <div>
             <h2 className="text-3xl md:text-5xl font-bold font-heading mb-4 whitespace-nowrap">
-              Our Recent <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">Work</span>
+              {/* Updated Gradient to match brand color #ff9d14 */}
+              Our Recent <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff9d14] to-[#ffb040]">Work</span>
             </h2>
             <p className="text-gray-400 max-w-xl text-sm md:text-base leading-relaxed">
               We build digital experiences that drive results.
@@ -38,7 +39,8 @@ export default async function PortfolioSection() {
           <div className="mt-6 md:mt-0">
              <Link 
                href="/portfolio" 
-               className="inline-flex items-center text-white font-bold hover:text-orange-500 transition-colors text-xs md:text-sm uppercase tracking-wider group"
+               // Updated Hover Color to #ff9d14
+               className="inline-flex items-center text-white font-bold hover:text-[#ff9d14] transition-colors text-xs md:text-sm uppercase tracking-wider group"
              >
                 View All Projects 
                 <FiArrowRight className="ml-2 transform group-hover:translate-x-1 transition-transform" />

@@ -11,7 +11,6 @@ import Image from 'next/image';
 // -----------------------------------------------------------------------------
 function getReadingTime(text) {
   const wordsPerMinute = 200;
-  // Handle both raw string (contentHtml) and Portable Text blocks (body)
   let textContent = '';
   
   if (typeof text === 'string') {
@@ -47,7 +46,7 @@ async function getPost(slug) {
 // 3. DYNAMIC METADATA (SEO)
 // -----------------------------------------------------------------------------
 export async function generateMetadata({ params }) {
-  const { slug } = await params; // Await params for Next.js 15+
+  const { slug } = await params;
   const post = await getPost(slug);
 
   if (!post) {
@@ -75,19 +74,22 @@ export async function generateMetadata({ params }) {
 const myPortableTextComponents = {
   block: {
     h1: ({children}) => <h1 className="text-4xl font-bold text-white mt-12 mb-6 leading-tight">{children}</h1>,
-    h2: ({children}) => <h2 className="text-3xl font-bold text-orange-500 mt-10 mb-5 border-l-4 border-orange-500 pl-4">{children}</h2>,
+    // Updated: Text and Border Color
+    h2: ({children}) => <h2 className="text-3xl font-bold text-[#ff9d14] mt-10 mb-5 border-l-4 border-[#ff9d14] pl-4">{children}</h2>,
     h3: ({children}) => <h3 className="text-2xl font-bold text-white mt-8 mb-4">{children}</h3>,
     h4: ({children}) => <h4 className="text-xl font-bold text-white mt-6 mb-3">{children}</h4>,
     normal: ({children}) => <p className="mb-6 text-gray-300 leading-relaxed text-lg">{children}</p>,
+    // Updated: Blockquote Border Color
     blockquote: ({children}) => (
-      <blockquote className="border-l-4 border-orange-500 pl-4 italic text-gray-400 my-8 bg-white/5 p-6 rounded-r-lg">
+      <blockquote className="border-l-4 border-[#ff9d14] pl-4 italic text-gray-400 my-8 bg-white/5 p-6 rounded-r-lg">
         {children}
       </blockquote>
     ),
   },
   list: {
-    bullet: ({children}) => <ul className="list-disc ml-6 mb-6 text-gray-300 space-y-2 marker:text-orange-500">{children}</ul>,
-    number: ({children}) => <ol className="list-decimal ml-6 mb-6 text-gray-300 space-y-2 marker:text-orange-500">{children}</ol>,
+    // Updated: Bullet/Number Marker Color
+    bullet: ({children}) => <ul className="list-disc ml-6 mb-6 text-gray-300 space-y-2 marker:text-[#ff9d14]">{children}</ul>,
+    number: ({children}) => <ol className="list-decimal ml-6 mb-6 text-gray-300 space-y-2 marker:text-[#ff9d14]">{children}</ol>,
   },
   marks: {
     link: ({children, value}) => {
@@ -96,7 +98,8 @@ const myPortableTextComponents = {
         <a 
           href={value.href} 
           rel={rel} 
-          className="text-orange-500 hover:text-orange-400 underline decoration-orange-500/30 underline-offset-4 transition-colors"
+          // Updated: Link Text, Hover, and Decoration Color
+          className="text-[#ff9d14] hover:text-[#ffb040] underline decoration-[#ff9d14]/30 underline-offset-4 transition-colors"
         >
           {children}
         </a>
@@ -123,13 +126,15 @@ export default async function BlogPost({ params }) {
   const readingTime = getReadingTime(contentSource);
 
   return (
-    <article className="bg-[#0f0f0f] min-h-screen text-white pt-24 pb-20 selection:bg-orange-500/30 selection:text-orange-200">
+    // Updated: Selection Colors
+    <article className="bg-[#0f0f0f] min-h-screen text-white pt-24 pb-20 selection:bg-[#ff9d14]/30 selection:text-[#ffb040]">
       
       {/* Navigation Breadcrumb */}
       <div className="container mx-auto px-4 max-w-4xl mb-8">
         <Link 
           href="/blog" 
-          className="inline-flex items-center text-sm font-medium text-gray-400 hover:text-orange-500 transition-colors group"
+          // Updated: Hover Color
+          className="inline-flex items-center text-sm font-medium text-gray-400 hover:text-[#ff9d14] transition-colors group"
         >
           <svg className="w-4 h-4 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" /></svg>
           Back to Articles
@@ -140,7 +145,8 @@ export default async function BlogPost({ params }) {
         {/* Header Section */}
         <header className="mb-14 text-center">
           <div className="flex items-center justify-center gap-4 mb-6 text-sm">
-            <span className="bg-orange-500/10 text-orange-500 px-3 py-1 rounded-full font-medium border border-orange-500/20">
+            {/* Updated: Tag Background, Text, and Border */}
+            <span className="bg-[#ff9d14]/10 text-[#ff9d14] px-3 py-1 rounded-full font-medium border border-[#ff9d14]/20">
               Blog Post
             </span>
             <span className="text-gray-400 flex items-center">
@@ -174,19 +180,14 @@ export default async function BlogPost({ params }) {
 
         {/* Content Section */}
         <div className="max-w-3xl mx-auto">
-          {/* Option A: The Old Way (Raw HTML Fallback)
-              We keep this only if you have old posts that rely on it 
-          */}
           {post.contentHtml && !post.body && (
              <div 
-               className="prose prose-invert prose-lg max-w-none prose-headings:text-white prose-a:text-orange-500 prose-img:rounded-xl"
+               // Updated: Anchor Text Color in Prose
+               className="prose prose-invert prose-lg max-w-none prose-headings:text-white prose-a:text-[#ff9d14] prose-img:rounded-xl"
                dangerouslySetInnerHTML={{ __html: post.contentHtml }} 
              />
           )}
 
-          {/* Option B: The New Way (Portable Text)
-              This uses the `myPortableTextComponents` defined above to fix the styles 
-          */}
           {post.body && (
             <div className="prose-lg max-w-none">
               <PortableText 
@@ -203,7 +204,11 @@ export default async function BlogPost({ params }) {
         <div className="text-center pb-12">
           <p className="text-gray-400 mb-6">Did you find this article helpful?</p>
           <div className="flex justify-center gap-4">
-            <Link href="/contact" className="px-8 py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-lg font-bold transition-all shadow-lg hover:shadow-orange-500/20">
+            <Link 
+              href="/contact" 
+              // Updated: Button Background, Hover, and Shadow
+              className="px-8 py-3 bg-[#ff9d14] hover:bg-[#e08a11] text-white rounded-lg font-bold transition-all shadow-lg hover:shadow-[#ff9d14]/20"
+            >
               Work With Us
             </Link>
           </div>
