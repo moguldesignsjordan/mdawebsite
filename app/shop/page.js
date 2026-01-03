@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { client } from '../lib/sanity'; // Use your sanity client
+import { client } from '@/lib/sanity'; // Use the @ alias
 
 export default function ShopPage() {
   const [filter, setFilter] = useState('all');
@@ -11,8 +11,8 @@ export default function ShopPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch all products from Sanity
-    const query = `*[_type == "product"] {
+    // GROQ query to get data from Sanity
+    const query = `*[_type == "product"] | order(_createdAt desc) {
       name,
       "id": slug.current,
       "image": image.asset->url,
@@ -22,7 +22,7 @@ export default function ShopPage() {
     }`;
     
     client.fetch(query).then((data) => {
-      setProducts(data);
+      setProducts(data || []);
       setLoading(false);
     });
   }, []);
@@ -31,7 +31,11 @@ export default function ShopPage() {
     ? products 
     : products.filter(p => p.type === filter);
 
-  if (loading) return <div className="pt-40 text-center text-light">Loading Shop...</div>;
+  if (loading) return (
+    <div className="pt-40 text-center text-light flex items-center justify-center min-h-screen">
+      <div className="animate-pulse uppercase tracking-widest text-primary">Loading Shop...</div>
+    </div>
+  );
 
   return (
     <div className="pt-32 pb-24 bg-dark min-h-screen text-light">
@@ -64,20 +68,24 @@ export default function ShopPage() {
               <Link href={`/shop/${product.id}`} key={product.id}>
                 <motion.div 
                   layout
-                  className="card-dark p-6 flex flex-col group h-full cursor-pointer"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  className="card-dark p-6 flex flex-col group h-full cursor-pointer hover:border-primary/30 transition-colors"
                 >
-                  <div className="aspect-square bg-light/5 rounded-2xl mb-6 overflow-hidden relative border border-light/5">
-                    {/* Added mix-blend-multiply to keep your transparent look */}
-                    <img src={product.image} alt={product.name} className="w-full h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-500" />
+                  <div className="aspect-square bg-white/[0.03] rounded-2xl mb-6 overflow-hidden relative border border-light/5 flex items-center justify-center p-8">
+                    <img 
+                      src={product.image} 
+                      alt={product.name} 
+                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500" 
+                    />
                   </div>
                   <h3 className="text-2xl font-bold font-heading mb-2 text-light">{product.name}</h3>
                   <p className="text-primary text-xl font-bold mb-4">
-                    From ${product.basePrice}
+                    {product.type === 'print' ? ` $${product.basePrice}` : `$${product.basePrice}`}
                   </p>
                   <p className="text-light/50 text-sm mb-6 line-clamp-2">{product.description}</p>
-                  <span className="w-full bg-light/5 text-center text-light font-bold py-3 rounded-xl border border-light/10 group-hover:bg-primary group-hover:text-black transition-all mt-auto">
+                  <span className="w-full bg-light/5 text-center text-light font-bold py-3 rounded-xl border border-light/10 group-hover:bg-primary group-hover:text-black transition-all mt-auto uppercase tracking-wider">
                     View Options
                   </span>
                 </motion.div>
