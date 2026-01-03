@@ -1,13 +1,11 @@
 import { createClient } from 'next-sanity';
 import { NextResponse } from 'next/server';
 import { markdownToBlocks } from '@tryfabric/martian';
-
-// MOVE CONFIG INSIDE THE FUNCTION
-// This prevents the "Top Level" crash during build
+import { randomUUID } from 'crypto'; // Built-in Node tool for generating keys
 
 export async function POST(request) {
   try {
-    // 1. Initialize Client INSIDE the request
+    // 1. Initialize Client
     const serverClient = createClient({
       projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
       dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
@@ -24,7 +22,7 @@ export async function POST(request) {
       return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
     }
 
-    // 3. Parse JSON from Make/n8n
+    // 3. Parse JSON
     const body = await request.json();
     const { title, excerpt, content, imageUrl } = body;
 
@@ -34,23 +32,16 @@ export async function POST(request) {
 
     // 4. Handle Image URL (Download -> Upload to Sanity)
     let imageAssetId = null;
-
     if (imageUrl) {
       console.log(`Downloading image from: ${imageUrl}`);
-      // Basic fetch
       const imageRes = await fetch(imageUrl);
-      
       if (imageRes.ok) {
         const imageBuffer = await imageRes.arrayBuffer();
         const buffer = Buffer.from(imageBuffer);
-        
-        // Upload to Sanity
         const asset = await serverClient.assets.upload('image', buffer, {
           filename: `automation-${Date.now()}.jpg`,
         });
         imageAssetId = asset._id;
-      } else {
-        console.warn('Failed to download image from URL provided');
       }
     }
 
@@ -58,12 +49,23 @@ export async function POST(request) {
     const slug = title
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
-      .replace(/(^-|-$)+/g, '');
+      .replace(/(^-|-$)+/g, '')
+      .slice(0, 96);
 
-    // 6. Convert Markdown to Sanity Blocks
-    // 'content' is the Markdown string from Make. 
-    // This function converts it into the JSON blocks Sanity needs.
-    const portableTextContent = markdownToBlocks(content);
+    // 6. Convert Markdown to Blocks & ADD KEYS (The Fix!)
+    let portableTextContent = markdownToBlocks(content);
+
+    // FIX A: Remove the first block if it's an H1 (removes the Double Title)
+    if (portableTextContent.length > 0 && 
+        portableTextContent[0].style === 'h1') {
+      portableTextContent.shift(); // Remove the first item
+    }
+
+    // FIX B: Add unique keys to every block (Fixes the Sanity Warning)
+    portableTextContent = portableTextContent.map(block => ({
+      ...block,
+      _key: randomUUID() // Generates a unique ID like "a1b2-c3d4"
+    }));
 
     // 7. Create Post
     const newPost = await serverClient.create({
@@ -77,11 +79,8 @@ export async function POST(request) {
         asset: { _type: 'reference', _ref: imageAssetId }
       } : undefined,
       
-      // 🟢 UPDATED: We now populate the standard 'body' field with our converted blocks
+      // Save the clean, keyed blocks
       body: portableTextContent,
-      
-      // (Optional) You can remove contentHtml if you no longer want the raw string
-      // contentHtml: content, 
     });
 
     return NextResponse.json({ 
