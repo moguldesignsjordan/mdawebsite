@@ -5,16 +5,16 @@ import { PortableText } from '@portabletext/react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-// Styling for text blocks
+// Styling for text blocks (Updated to use #ff9d14)
 const myPortableTextComponents = {
   block: {
     h1: ({children}) => <h1 className="text-3xl font-bold text-white mt-12 mb-6">{children}</h1>,
-    h2: ({children}) => <h2 className="text-2xl font-bold text-orange-500 mt-10 mb-4">{children}</h2>,
+    h2: ({children}) => <h2 className="text-2xl font-bold text-[#ff9d14] mt-10 mb-4">{children}</h2>,
     normal: ({children}) => <p className="mb-6 text-gray-300 leading-relaxed">{children}</p>,
-    blockquote: ({children}) => <blockquote className="border-l-4 border-orange-500 pl-4 italic text-gray-400 my-8">{children}</blockquote>,
+    blockquote: ({children}) => <blockquote className="border-l-4 border-[#ff9d14] pl-4 italic text-gray-400 my-8">{children}</blockquote>,
   },
   list: {
-    bullet: ({children}) => <ul className="list-disc ml-5 mb-6 text-gray-300 marker:text-orange-500 space-y-2">{children}</ul>,
+    bullet: ({children}) => <ul className="list-disc ml-5 mb-6 text-gray-300 marker:text-[#ff9d14] space-y-2">{children}</ul>,
   },
 };
 
@@ -35,11 +35,13 @@ export default async function ProjectPage({ params }) {
   if (!project) notFound();
 
   return (
-    <article className="bg-[#0f0f0f] min-h-screen text-white pt-28 pb-20 selection:bg-orange-500/30">
+    // Updated selection color
+    <article className="bg-[#0f0f0f] min-h-screen text-white pt-28 pb-20 selection:bg-[#ff9d14]/30">
       
       {/* 1. HERO SECTION */}
       <div className="container mx-auto px-4 max-w-7xl mb-16">
-        <Link href="/portfolio" className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-orange-500 mb-8 transition-colors">
+        {/* Updated hover color */}
+        <Link href="/portfolio" className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-[#ff9d14] mb-8 transition-colors">
           ← Back to Work
         </Link>
         
@@ -63,7 +65,8 @@ export default async function ProjectPage({ params }) {
           <aside className="lg:col-span-4 lg:sticky lg:top-32 self-start space-y-8 bg-[#161616] p-8 rounded-2xl border border-white/5">
             {project.client && (
               <div>
-                <h3 className="text-xs font-bold text-orange-500 uppercase tracking-widest mb-1">Client</h3>
+                {/* Updated text color */}
+                <h3 className="text-xs font-bold text-[#ff9d14] uppercase tracking-widest mb-1">Client</h3>
                 <p className="text-lg font-medium">{project.client}</p>
               </div>
             )}
@@ -71,13 +74,15 @@ export default async function ProjectPage({ params }) {
             <div className="grid grid-cols-2 gap-6">
               {project.timeline && (
                 <div>
-                  <h3 className="text-xs font-bold text-orange-500 uppercase tracking-widest mb-1">Timeline</h3>
+                   {/* Updated text color */}
+                  <h3 className="text-xs font-bold text-[#ff9d14] uppercase tracking-widest mb-1">Timeline</h3>
                   <p className="text-lg font-medium">{project.timeline}</p>
                 </div>
               )}
               {project.role && (
                 <div>
-                  <h3 className="text-xs font-bold text-orange-500 uppercase tracking-widest mb-1">Role</h3>
+                   {/* Updated text color */}
+                  <h3 className="text-xs font-bold text-[#ff9d14] uppercase tracking-widest mb-1">Role</h3>
                   <p className="text-lg font-medium">{project.role}</p>
                 </div>
               )}
@@ -85,7 +90,8 @@ export default async function ProjectPage({ params }) {
 
             {project.techStack && project.techStack.length > 0 && (
               <div>
-                <h3 className="text-xs font-bold text-orange-500 uppercase tracking-widest mb-3">Tech Stack</h3>
+                 {/* Updated text color */}
+                <h3 className="text-xs font-bold text-[#ff9d14] uppercase tracking-widest mb-3">Tech Stack</h3>
                 <div className="flex flex-wrap gap-2">
                   {project.techStack.map(tech => (
                     <span key={tech} className="bg-white/5 border border-white/10 px-3 py-1 rounded-full text-sm text-gray-300">
@@ -101,7 +107,8 @@ export default async function ProjectPage({ params }) {
                 href={project.projectLink} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="flex items-center justify-center w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg hover:shadow-orange-500/20 mt-4"
+                // Updated Button: Background, Hover, and Shadow match brand color
+                className="flex items-center justify-center w-full bg-[#ff9d14] hover:bg-[#e08a11] text-white font-bold py-4 rounded-xl transition-all shadow-lg hover:shadow-[#ff9d14]/20 mt-4"
               >
                 Visit Live Site ↗
               </a>
