@@ -20,6 +20,24 @@ export default defineType({
       options: { source: 'title', maxLength: 96 },
       validation: (Rule) => Rule.required(),
     }),
+    // --- NEW FIELD ADDED HERE ---
+    defineField({
+      name: 'projectType',
+      title: 'Project Type',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Web Design', value: 'Web Design' },
+          { title: 'Branding', value: 'Branding' },
+          { title: 'Automation', value: 'Automation' },
+          { title: 'App Development', value: 'App Development' },
+          { title: 'Project Management', value: 'Project Management' },
+        ],
+        layout: 'radio' // Options: 'dropdown' or 'radio'
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    // ---------------------------
     defineField({
       name: 'tagline',
       title: 'Tagline',
