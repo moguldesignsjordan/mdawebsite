@@ -1,10 +1,13 @@
-import post from './post'
-import { blockContent } from './blockContent'
-import { category } from './category'
-import { post } from './post'
-import { author } from './author'
-import project from './project' // <--- 1. IMPORT THIS
+// sanity/schemaTypes/index.js
 
+// 1. Import the schemas we KNOW exist
+import post from './post'
+import project from './project' 
+
+// 2. Export the schema definition
 export const schema = {
-  types: [post, author, category, blockContent, project], // <--- 2. ADD THIS
+  types: [
+    post,
+    project,
+  ],
 }
