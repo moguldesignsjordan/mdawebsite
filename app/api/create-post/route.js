@@ -1,7 +1,7 @@
 import { createClient } from 'next-sanity';
 import { NextResponse } from 'next/server';
-import { markdownToBlocks } from '@tryfabric/martian';
-import { randomUUID } from 'crypto'; // Built-in Node tool for generating keys
+import { markdownToPortableText } from '@portabletext/markdown';
+import { randomUUID } from 'crypto';
 
 export async function POST(request) {
   try {
@@ -52,22 +52,21 @@ export async function POST(request) {
       .replace(/(^-|-$)+/g, '')
       .slice(0, 96);
 
-    // 6. Convert Markdown to Blocks & ADD KEYS (The Fix!)
-    let portableTextContent = markdownToBlocks(content);
+    // 6. Convert Markdown to Sanity Portable Text
+    // We use the official library to ensure valid '_type' and 'style'
+    let portableTextContent = await markdownToPortableText(content);
 
-    // FIX A: Remove the first block if it's an H1 (removes the Double Title)
-    if (portableTextContent.length > 0 && 
-        portableTextContent[0].style === 'h1') {
-      portableTextContent.shift(); // Remove the first item
-    }
+    // 7. Sanitize Blocks (Add Keys & Remove Duplicate Title)
+    portableTextContent = portableTextContent
+      // Remove the first block if it's an H1 (to avoid double titles)
+      .filter((block, index) => !(index === 0 && block.style === 'h1'))
+      // Ensure every block has a unique _key (Required by Sanity)
+      .map(block => ({
+        ...block,
+        _key: block._key || randomUUID()
+      }));
 
-    // FIX B: Add unique keys to every block (Fixes the Sanity Warning)
-    portableTextContent = portableTextContent.map(block => ({
-      ...block,
-      _key: randomUUID() // Generates a unique ID like "a1b2-c3d4"
-    }));
-
-    // 7. Create Post
+    // 8. Create Post
     const newPost = await serverClient.create({
       _type: 'post',
       title: title,
@@ -78,9 +77,7 @@ export async function POST(request) {
         _type: 'image',
         asset: { _type: 'reference', _ref: imageAssetId }
       } : undefined,
-      
-      // Save the clean, keyed blocks
-      body: portableTextContent,
+      body: portableTextContent, // Save the valid Portable Text
     });
 
     return NextResponse.json({ 

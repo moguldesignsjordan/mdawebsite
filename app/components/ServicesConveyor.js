@@ -36,7 +36,7 @@ const services = [
     subtitle: "Intelligence",
     tags: ["LLMs", "Machine Learning", "Generative AI"],
     link: "/services/automations",
-    bg: "ai.webp",
+    bg: "/ai.webp",
   },
   {
     id: "social",

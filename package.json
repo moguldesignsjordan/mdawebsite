@@ -9,10 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@portabletext/markdown": "^1.1.1",
     "@portabletext/react": "^6.0.2",
     "@sanity/image-url": "^1.2.0",
     "@sanity/vision": "^4.22.0",
-    "@tryfabric/martian": "^1.2.4",
     "framer-motion": "^12.23.26",
     "next": "^16.1.1",
     "next-sanity": "^11.6.12",
