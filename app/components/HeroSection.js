@@ -243,7 +243,7 @@ const HeroSection = () => {
           <InteractiveButton href="/contact" text="Start A Project" />
           
           <motion.a
-            href="#work"
+            href="/portfolio"
             className="group flex items-center gap-2 px-6 py-3 text-white/70 hover:text-white transition-colors"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}

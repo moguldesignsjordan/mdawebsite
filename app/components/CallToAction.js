@@ -32,7 +32,7 @@ const CallToAction = () => {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-8"
           >
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-            <span className="text-sm text-white/80">Limited spots for Q1 2026</span>
+            <span className="text-sm text-white/80">Lets Create</span>
           </motion.div>
 
           {/* Main Heading */}
