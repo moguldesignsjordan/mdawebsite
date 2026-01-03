@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { client } from '@/lib/sanity';
+import { client } from '../../../lib/sanity';
 import { useShop } from '../../../context/ShopContext';
 import { FiChevronLeft, FiPlus, FiMinus } from 'react-icons/fi';
 import Link from 'next/link';
